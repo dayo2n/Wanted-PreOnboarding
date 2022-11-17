@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+struct Student {
+    var name: String
+    var report: [Grade] = [] // 성적표
+}
