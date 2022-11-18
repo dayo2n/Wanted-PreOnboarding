@@ -62,8 +62,12 @@ func gradeScore() {
     
     // MARK: 없는 학생인 경우 성적을 추가하지 않음
     if let _ = records[input[0]] {
-        // TODO: 성적이 비정삭적으로 입력된 경우 처리
+        // MARK: 성적이 비정삭적으로 입력된 경우 처리
         if let grade = GradeType[input[2]] {
+            // MARK: 성적이 이미 존재하면 변경(삭제 후 추가), 아니면 바로 추가
+            if records[input[0]]!.contains(where: {$0.subject == input[1]}) {
+                records[input[0]]!.remove(at: records[input[0]]!.firstIndex(where: {$0.subject == input[1]})!)
+            }
             records[input[0]]!.append(Grade(subject: input[1], grade: grade))
             print("\(input[0]) 학생의 \(input[1]) 과목이 \(input[2])로 추가(변경)되었습니다.")
         } else {
