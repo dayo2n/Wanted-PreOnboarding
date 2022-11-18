@@ -7,19 +7,10 @@
 
 import Foundation
 
-enum GradeType: Double {
-    case upA = 4.5
-    case A = 4.0
-    case upB = 3.5
-    case B = 3.0
-    case upC = 2.5
-    case C = 2.0
-    case upD = 1.5
-    case D = 1.0
-    case F = 0.0
-}
+let GradeType : [String: Double] = ["A+": 4.5, "A": 4.0, "B+": 3.5, "B": 3.0,
+                                    "C+": 2.5, "C": 2.0, "D+": 1.5, "D": 1.0, "F": 0.0]
 
 struct Grade {
-    var subject: String!
-    var grade: GradeType
+    var subject: String
+    var grade: Double
 }
