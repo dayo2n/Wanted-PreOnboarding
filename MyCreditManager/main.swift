@@ -74,6 +74,31 @@ func gradeScore() {
     }
 }
 
+func deleteScore() {
+    print("성적을 삭제할 학생의 이름, 과목 이름을 띄어쓰기로 구분하여 차례로 작성해주세요.")
+    print("입력예) Mickey Swift")
+    
+    // MARK: input[0] = 학생 이름, input[1] = 과목 이름
+    let input: [String] = readLine()!.split(separator: " ").map{String($0)}
+    if input.count != 2 {
+        print("입력이 잘못되었습니다. 다시 확인해주세요.")
+        return
+    }
+    
+    // MARK: 없는 학생인 경우 성적을 삭제하지 않음
+    if let _ = records[input[0]] {
+        // TODO: 존재하지 않은 과목을 삭제하려는 경우
+        if records[input[0]]!.filter({$0.subject==input[1]}).isEmpty {
+            print("\(input[0]) 학생은 \(input[1]) 과목에 대한 성적 정보가 없습니다.")
+        } else {
+            records[input[0]]!.remove(at: records[input[0]]!.firstIndex(where: {$0.subject == input[1]})!)
+            print("\(input[0]) 학생의 \(input[2]) 과목의 성적이 삭제되었습니다.")
+        }
+    } else {
+        print("\(input[0]) 학생을 찾지 못했습니다.")
+    }
+}
+
 // 프로그램 동작 시작
 var chosenMenu: String
 while true {
@@ -91,7 +116,8 @@ while true {
             gradeScore()
         
         case .deleteScore:
-            break
+            deleteScore()
+        
         case .showGPA:
             break
         case .exit:
