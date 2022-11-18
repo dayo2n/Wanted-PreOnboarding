@@ -20,7 +20,7 @@ enum MenuType: String {
 
 func addStudent() {
     
-    // FIXME: var to let
+    // FIXME: var to let, 학생의 이름을 입력하지않은 경우 (newStudentName.count == 0)
     var newStudentName: String = ""
     print("추가할 학생의 이름을 입력해주세요.")
     newStudentName = readLine()!
@@ -35,7 +35,7 @@ func addStudent() {
 
 func deleteStudent() {
     
-    // FIXME: var to let
+    // FIXME: var to let, 학생의 이름을 입력하지않은 경우 (newStudentName.count == 0)
     var studentName: String = ""
     print("삭제할 학생의 이름을 입력해주세요.")
     studentName = readLine()!
@@ -92,10 +92,36 @@ func deleteScore() {
             print("\(input[0]) 학생은 \(input[1]) 과목에 대한 성적 정보가 없습니다.")
         } else {
             records[input[0]]!.remove(at: records[input[0]]!.firstIndex(where: {$0.subject == input[1]})!)
-            print("\(input[0]) 학생의 \(input[2]) 과목의 성적이 삭제되었습니다.")
+            print("\(input[0]) 학생의 \(input[1]) 과목의 성적이 삭제되었습니다.")
         }
     } else {
         print("\(input[0]) 학생을 찾지 못했습니다.")
+    }
+}
+
+func showGPA() {
+    print("평점을 알고싶은 학생의 이름을 입력해주세요.")
+    let studentName: String = readLine()!
+    if studentName.count == 0 {
+        print("입력이 잘못되었습니다. 다시 확인해주세요.")
+        return
+    }
+    // MARK: 없는 학생인 경우 처리
+    if let _ = records[studentName] {
+        if records[studentName]!.isEmpty { print("저장된 성적 정보가 존재하지 않습니다.") }
+        else {
+            var sum: Double = 0.0
+            for record in records[studentName]! {
+                print("\(record.subject): \(GradeType.first(where: {$0.value == record.grade})!.key)")
+                sum += record.grade
+            }
+            let GPA: Double = sum / Double(records[studentName]!.count)
+            // FIXME: 소수점이 첫번째자리 이상인 경우는 필요없는 소수점 아예 버리도록
+            if String(GPA).split(separator: ".")[1].count < 2 { print("평점: \(GPA)") }
+            else { print("평점: \(String(format: "%.2f", GPA))") }
+        }
+    } else {
+        print("\(studentName) 학생을 찾지 못했습니다.")
     }
 }
 
@@ -119,7 +145,8 @@ while true {
             deleteScore()
         
         case .showGPA:
-            break
+            showGPA()
+        
         case .exit:
             exit(0)
     }
